@@ -25,3 +25,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/secret', function() {
 	return "secret";
 })->middleware(['auth','password.confirm']);
+Route::get('profile', 'ProfileController@index')->name('profile');
+Route::get('profile/two-factor-auth', 'ProfileController@manageTwoFactor')->name('two.factor.auth');
+Route::post('profile/two-factor-auth', 'ProfileController@postManageTwoFactor')->name('post.two.factor.auth');
