@@ -17,8 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::get('/auth/google','Auth\GoogleAuthController@redirect')->name('auth.google');
 Route::get('/auth/google/callback','Auth\GoogleAuthController@callback');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/secret', function() {
+	return "secret";
+})->middleware(['auth','password.confirm']);
