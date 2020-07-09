@@ -21,6 +21,15 @@ class ProfileController extends Controller
     		'type' => 'required|in:sms,off',
     		'phone' => 'required_unless:type,off'
     	]);
-    	return $data;
+    	if($data['type'] === 'sms') {
+    		//validation phone number
+    	}
+    	if($data['type'] === 'off') {
+    		$request->user()->update([
+    			'two_factor_type' => 'off'
+    		]);
+    	}
+
+    	return back();
     }
 }
