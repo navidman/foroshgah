@@ -23,7 +23,7 @@ class ProfileController extends Controller
 
     	$data = $request->validate([
     		'type' => 'required|in:sms,off',
-    		'phone' => 'required_unless:type,off'
+    		'phone' => 'required_unless:type,off|unique:users,phone_number'
     	]);
     	if($data['type'] === 'sms') {
     		if ($request->user()->phone_number !== $data['phone']) {
@@ -89,7 +89,7 @@ class ProfileController extends Controller
     		]);
     		alert()->success('باریکلا','ایشالا که ماشالا');
     	} else {
-    		alert()->error('ریییدی','دفه بعدی ماشالا');
+    		alert()->error('ریییدی','دفه بعدی ایشالا');
     	}
 
     	return redirect(route('two.factor.auth')); 

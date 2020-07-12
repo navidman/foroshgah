@@ -14,18 +14,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-   
     return view('welcome');
 });
+
+
 
 Auth::routes(['verify' => true]);
 Route::get('/auth/google','Auth\GoogleAuthController@redirect')->name('auth.google');
 Route::get('/auth/google/callback','Auth\GoogleAuthController@callback');
+Route::get('/auth/token','Auth\AuthTokenController@getToken')->name('two.factor.auth.token');
+Route::post('/auth/token','Auth\AuthTokenController@postToken');
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/secret', function() {
 	return "secret";
 })->middleware(['auth','password.confirm']);
+
+
 
 Route::middleware('auth')->group(function(){
 

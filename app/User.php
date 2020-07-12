@@ -44,4 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasTwoFactor($key) {
         return $this->two_factor_type == $key; 
     }
+    public function userHasTwoFactorAuthenticatedEnabled() {
+        return $this->two_factor_type !== 'off';
+    }
 }
