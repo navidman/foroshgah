@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+   
     return view('welcome');
 });
 
@@ -31,4 +32,7 @@ Route::middleware('auth')->group(function(){
 	Route::get('profile', 'ProfileController@index')->name('profile');
 	Route::get('profile/two-factor-auth', 'ProfileController@manageTwoFactor')->name('two.factor.auth');
 	Route::post('profile/two-factor-auth', 'ProfileController@postManageTwoFactor')->name('post.two.factor.auth');
+
+	Route::get('profile/two-factor/phone', 'ProfileController@getPhoneVerify')->name('two.factor.phone');
+	Route::post('profile/two-factor/phone', 'ProfileController@postPhoneVerify');
 });

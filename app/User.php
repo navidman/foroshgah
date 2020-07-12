@@ -36,6 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function ActiveCode() {
+        return $this->hasmany(ActiveCode::class);
+    }
+
     public function hasTwoFactor($key) {
         return $this->two_factor_type == $key; 
     }
