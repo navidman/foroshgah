@@ -21,7 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers , TwoFactorAuthenticate;
 
     /**
      * Where to redirect users after login.
@@ -41,22 +41,9 @@ class LoginController extends Controller
     }
 
     protected function authenticated(Request $request , $user) {
-        if ($user->userHasTwoFactorAuthenticatedEnabled()) {
-            
-            auth()->logout();
-            $request->session()->flash('auth' , [
-                'user_id' => $user->id,
-                'user_sms' => false,
-                'remember' => $request->has('remember'),
-            ]);
-            if ($user->two_factor_type == 'sms') {
 
-                $code = ActiveCode::generateCode($user);
-                $request->session()->push('auth.using_sms' , true);
-            }
-            return redirect(route('two.factor.auth.token'));
-
-        }
-        return false;
+        return $this->loggendin($request , $user);
+    
     }
+
 }
