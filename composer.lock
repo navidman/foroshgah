@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67343a65a8d4803d8310c659eb55f8b4",
+    "content-hash": "dca40a2741f5cda3445d2452c55fa69f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -511,6 +511,50 @@
                 "laravel"
             ],
             "time": "2020-05-31T07:30:16+00:00"
+        },
+        {
+            "name": "ghasedak/php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ghasedakapi/ghasedak-php.git",
+                "reference": "b128dcd1841ee26d7d4f1843cb2356d6df0d0e3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ghasedakapi/ghasedak-php/zipball/b128dcd1841ee26d7d4f1843cb2356d6df0d0e3f",
+                "reference": "b128dcd1841ee26d7d4f1843cb2356d6df0d0e3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ghasedak\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abbas Hosseinpour",
+                    "email": "abdolzahra512@gmail.com"
+                }
+            ],
+            "description": "ghasedak sms gateway package for PHP",
+            "homepage": "https://github.com/ghasedakapi/ghasedak-php",
+            "keywords": [
+                "Ghasedak",
+                "api",
+                "notification",
+                "sms",
+                "sms-gateway"
+            ],
+            "time": "2019-12-11T13:46:28+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -6030,7 +6074,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "ghasedak/php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

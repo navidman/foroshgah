@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\Recaptcha;
 
 class RegisterController extends Controller
 {
@@ -53,6 +54,9 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+             'g-recaptcha-response' => ['required' , new Recaptcha]
+        ],[
+            'g-recaptcha-response.required' => 'لطفا روی من روبات نیستم کلیک کنید'
         ]);
     }
 

@@ -78,6 +78,7 @@
         </main>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('script')
     @include('sweet::alert')
 </body>
 </html>

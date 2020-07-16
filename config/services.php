@@ -34,6 +34,9 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_SECRET_KEY'),
         'redirect' => env('GOOGLE_CALLBACK_URL'),
-],
+    ],
+    'ghasedak' => [
+        'key' => env('GHASEDAL_API_KEY'),
+    ]
 
 ];
