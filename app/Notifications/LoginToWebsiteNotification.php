@@ -42,7 +42,7 @@ class LoginToWebsiteNotification extends Notification
     {
         return (new MailMessage)
                     ->subject('You logged id!')
-                    ->view('emails.login-to-website');
+                    ->markdown('emails.login-to-website');
     }
 
     /**
