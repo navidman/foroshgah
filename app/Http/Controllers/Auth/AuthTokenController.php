@@ -5,6 +5,8 @@ use App\User;
 use App\ActiveCode;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Notifications\LoginToWebsiteNotification;
+
 
 class AuthTokenController extends Controller
 {
@@ -42,6 +44,7 @@ class AuthTokenController extends Controller
     	}
 
     	if (auth()->loginUsingId($user->id,$request->session()->get('auth.remember'))) {
+            $user->notify(new LoginToWebsiteNotification());
 			$user->activeCode()->delete();
 			alert()->success('ایشالا که ماشالا','باریکلا');
 			return redirect('/');	

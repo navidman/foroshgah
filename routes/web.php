@@ -34,12 +34,12 @@ Route::get('/secret', function() {
 
 
 
-Route::middleware('auth')->group(function(){
+Route::prefix('profile')->namespace('Profile')->middleware('auth')->group(function(){
 
-	Route::get('profile', 'ProfileController@index')->name('profile');
-	Route::get('profile/two-factor-auth', 'ProfileController@manageTwoFactor')->name('two.factor.auth');
-	Route::post('profile/two-factor-auth', 'ProfileController@postManageTwoFactor')->name('post.two.factor.auth');
+	Route::get('/', 'IndexController@index')->name('profile');
+	Route::get('two-factor-auth', 'TwoFactorAuthController@manageTwoFactor')->name('two.factor.auth');
+	Route::post('two-factor-auth', 'TwoFactorAuthController@postManageTwoFactor')->name('post.two.factor.auth');
 
-	Route::get('profile/two-factor/phone', 'ProfileController@getPhoneVerify')->name('two.factor.phone');
-	Route::post('profile/two-factor/phone', 'ProfileController@postPhoneVerify');
+	Route::get('two-factor/phone', 'TokenAuthController@getPhoneVerify')->name('two.factor.phone');
+	Route::post('two-factor/phone', 'TokenAuthController@postPhoneVerify');
 });
