@@ -2,10 +2,10 @@
 
 
 Route::get('/' , function() {
-	return view('admin.master');
+	return view('admin.index');
 });
 
 Route::get('users' , function() {
-	return 'users list';
+	return view('admin.users.all');
 });
 
