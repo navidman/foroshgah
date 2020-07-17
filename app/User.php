@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','two_factor_type','phone_number'
+        'name', 'email', 'password','two_factor_type','phone_number','is_superuser','is-staff'
     ];
 
     /**
@@ -63,6 +63,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
 
+
+    public function isSuperUser() {
+        return $this->is_superuser;
+    }
+    public function isStaff() {
+        return $this->is_staff;
+    }
 
     public function ActiveCode() {
         return $this->hasmany(ActiveCode::class);
