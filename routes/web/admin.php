@@ -1,10 +1,8 @@
 <?php
 
 
-
-
 Route::get('/' , function() {
-	return 'admin panel';
+	return view('admin.master');
 });
 
 Route::get('users' , function() {
