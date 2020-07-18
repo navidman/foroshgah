@@ -87,4 +87,8 @@ class User extends Authenticatable implements MustVerifyEmail
          return $this->two_factor_type == 'sms';
     }
 
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
 }

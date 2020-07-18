@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -15,7 +17,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(20);
+        $users = User::query();
+
+        if ($keyword = request('search')) {
+            $users->where('email' , 'LIKE' , "%{$keyword}%")->orWhere('name' , 'LIKE' , "%{$keyword}%")->orWhere('id' , $keyword);
+        }
+        if (request('admin')) {
+            $users->where('is_superuser' , 1)->orWhere('is_staff' , 1);
+        }
+
+        $users = $users->latest()->paginate(20);
         return view('admin.users.all' , compact('users'));
     }
 
@@ -26,7 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -37,7 +48,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
+        ]);
+        $user = User::create($data);
+
+        // User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
+
+        if ($request->has('verify')) {
+            $user->markEmailAsVerified();
+        }
+        alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
+        return redirect(route('admin.users.index'));
     }
 
     /**
@@ -54,12 +82,12 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit' , compact('user'));
     }
 
     /**
@@ -69,9 +97,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ]);
+        if (! is_null($request->password)) {
+            $request->validate([
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        $data['password'] = $request->password;
+        }
+        $user->update($data);
+        if ($request->has('verify')) {
+            $user->markEmailAsVerified();
+        }
+        alert()->success('مطلب مورد نظر شما با موفقیت ویرایش شد.');
+        return redirect(route('admin.users.index'));
     }
 
     /**
@@ -80,8 +123,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        alert()->success('مطلب مورد نظر شما با موفقیت حذف شد.');
+        return back();
     }
 }
