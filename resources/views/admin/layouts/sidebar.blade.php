@@ -54,6 +54,15 @@
             </ul>
           </li>
           <li class="nav-item">
+            <a href="{{ url('admin/users') }}" class="nav-link">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+                کاربران
+                <span class="right badge badge-danger">جدید</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
               <p>

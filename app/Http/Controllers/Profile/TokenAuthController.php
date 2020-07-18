@@ -48,4 +48,5 @@ class TokenAuthController extends Controller
     	}
 
     	return redirect(route('two.factor.auth')); 
+    }
 }

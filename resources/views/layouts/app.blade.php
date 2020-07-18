@@ -67,6 +67,10 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a id="navbarAdminlink" class="nav-link" href="{{ url('admin') }}" role="button">Admin Panel
+                                </a>
+                            </li>
                         @endguest
                     </ul>
                 </div>
