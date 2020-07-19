@@ -3,8 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class Recaptcha implements Rule
 {
@@ -21,31 +20,24 @@ class Recaptcha implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function passes($attribute, $value)
     {
-        try {
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify' , [
+            'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+            'response' => $value,
+            'remoteip' => request()->ip()
+        ]);
 
-            $client = new Client();
+        $response->throw();
 
-            $response = $client->request('POST','https://www.google.com/recaptcha/api/siteverify',
-                [
-                    'form_params' => [
-                        'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
-                        'response' => $value,
-                        'remoteip' => request()->ip()
-                    ]
-                ]);
+        $response = $response->json();
 
-            $response = json_decode($response->getBody());
-            return $response->success;
-        } catch (Exception $e) {
-            //TODO log an error
-            return false;
-        }
+        return $response['success'];
     }
 
     /**
@@ -55,6 +47,6 @@ class Recaptcha implements Rule
      */
     public function message()
     {
-        return 'شما بعنوان ربات تشخیص داده شده اید.';
+        return 'شما به عنوان ربات تشخیص داده شده اید';
     }
 }
