@@ -67,7 +67,9 @@
 		                		@method('DELETE')
 		                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
 		                	</form>
-		                	<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm btn-primary">ویرایش</a>
+		                	
+		                	<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm btn-primary {{ auth()->user()->cannot('edit' , $user) == true ? 'disabled' : '' }}">ویرایش</a>
+		                	
 		                </td>
 	            	</tr>
 	            	@endforeach

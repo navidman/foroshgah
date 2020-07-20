@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
+
 
 class UserController extends Controller
 {
+
+    public function __construct() 
+    {
+        $this->middleware('can:edit,user')->only(['edit']);
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -86,8 +95,29 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
-    {
+    {   
+
+ 
+        // $this->authorize('edit-user' , $user);
+
+
+
+        // if (auth()->user()->can('edit-user' , $user)) {
+      
+        //     return view('admin.users.edit' , compact('user'));
+        // }
+        // return abort(403);
+
+
+
+
+        // $this->authorize('edit' , $user);
+            
         return view('admin.users.edit' , compact('user'));
+        
+
+
+        
     }
 
     /**
