@@ -133,6 +133,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
+        // , Rule::unique('users')->ingnore($user->id)
         if (! is_null($request->password)) {
             $request->validate([
                 'password' => ['required', 'string', 'min:8', 'confirmed'],

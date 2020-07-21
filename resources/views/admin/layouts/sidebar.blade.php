@@ -45,10 +45,30 @@
                   <p>لیست کاربران</p>
                 </a>
               </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview {{ isActive(['admin.permissions.index' , 'admin.permissions.edit' , 'admin.permissions.create' , 'admin.roles.index' , 'admin.roles.edit' , 'admin.roles.create'] , 'menu-open') }}">
+            <a href="#" class="nav-link {{ isActive(['admin.permissions.index' , 'admin.permissions.edit' , 'admin.permissions.create' , 'admin.roles.index' , 'admin.roles.edit' , 'admin.roles.create']) }}">
+              <i class="fa fa-user nav-icon"></i>
+              <p>
+                دسترسی ها
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
               <li class="nav-item has-treeview">
-                <a href="./index3.html" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>اجازه دسترسی</p>
+                <a href="{{ route('admin.roles.index') }}" class="nav-link {{ isActive('admin.roles.index') }}">
+                  <i class="fa fa-users nav-icon"></i>
+                  <p>همه ی نقش ها</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview">
+                <a href="{{ route('admin.permissions.index') }}" class="nav-link {{ isActive('admin.permissions.index') }}">
+                  <i class="fa fa-users nav-icon"></i>
+                  <p>همه ی دسترسی ها</p>
                 </a>
               </li>
             </ul>

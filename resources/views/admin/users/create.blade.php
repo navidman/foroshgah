@@ -24,14 +24,14 @@
                     <label for="name" class="col-sm-2 control-label">نام</label>
 
                    
-                      <input type="text" name="name" class="form-control" id="name" placeholder="نام را وارد کنید">
+                      <input type="text" name="name" class="form-control" id="name" placeholder="نام را وارد کنید" value="{{ old('name') }}">
                     
                   </div>
                   <div class="form-group">
                     <label for="email" class="col-sm-2 control-label">ایمیل</label>
 
                    
-                      <input type="email" name="email" class="form-control" id="email" placeholder="ایمیل را وارد کنید">
+                      <input type="email" name="email" class="form-control" id="email" placeholder="ایمیل را وارد کنید" value="{{ old('email') }}">
                     
                   </div>
                   <div class="form-group">
