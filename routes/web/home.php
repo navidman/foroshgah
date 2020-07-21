@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
+use App\User;
 
 
 /*
@@ -16,8 +17,6 @@ use Illuminate\Support\Facades\Gate;
 */
 
 Route::get('/', function () {
-
-
     return view('welcome');
 });
 

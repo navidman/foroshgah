@@ -18,7 +18,7 @@ class UserController extends Controller
         $this->middleware('can:edit,user')->only(['edit']);
 
     }
-
+    
     /**
      * Display a listing of the resource.
      *
