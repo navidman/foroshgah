@@ -68,8 +68,10 @@
 		                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
 		                	</form>
 		                	
-		                	<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm btn-primary {{ auth()->user()->cannot('edit' , $user) == true ? 'disabled' : '' }}">ویرایش</a>
-		                	
+		                	<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm ml-2 btn-primary {{ auth()->user()->cannot('edit' , $user) == true ? 'disabled' : '' }}">ویرایش</a>
+		                	@if($user->isStaff())
+		                		<a href="{{ route('admin.users.permissions' , $user->id) }}" class="btn btn-sm btn-warning">دسترسی</a>
+		                	@endif
 		                </td>
 	            	</tr>
 	            	@endforeach

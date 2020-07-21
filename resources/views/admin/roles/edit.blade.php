@@ -8,6 +8,16 @@
       
   @endslot
 
+  @slot('script')
+    <script>
+      $('#roles').select2({
+        'placeholder' : 'نقش های مورد نظر را انتخاب کنید'
+      })
+      $('#permissions').select2({})
+    </script>
+
+  @endslot
+
   <div class="row">
     <div class="col-lg-12">
       @include('admin.layouts.error')
@@ -39,7 +49,7 @@
                     <label for="label" class="col-sm-2 control-label">دسترسی ها</label>
 
                    
-                    <select class="form-control" name="permissions[]" id="" multiple="">
+                    <select class="form-control" name="permissions[]" id="permissions" multiple="">
                       @foreach(\App\Permission::all() as $permission)
                         <option value="{{ $permission->id }}" {{ in_array($permission->id , $role->permissions->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $permission->name }} - {{ $permission->label }}</option>
                       @endforeach

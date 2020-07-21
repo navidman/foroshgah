@@ -26,3 +26,7 @@
     </div><!-- /.container-fluid -->
   </section>
 @endsection
+
+@section('script')
+  {{ $script ?? '' }}
+@endsection

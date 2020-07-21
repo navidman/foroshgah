@@ -50,7 +50,7 @@ class RoleController extends Controller
         ]);
 
         $role = Role::create($data);
-        $role->permissions()->sync($data('permissions'));
+        $role->permissions()->sync($data['permissions']);
 
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.roles.index'));

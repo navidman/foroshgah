@@ -1,10 +1,10 @@
-@component('admin.layouts.content' , ['title' => 'ایجاد نفش جدید'])
+@component('admin.layouts.content' , ['title' => 'ثبت دسترسی'])
 
 	@slot('breadcrumb')
 
 		<li class="breadcrumb-item"><a href="/admin">پنل مدیریت</a></li>
-		<li class="breadcrumb-item"><a href="/admin/roles">همه ی نقش ها</a></li>
-		<li class="breadcrumb-item active">ایجاد نقش جدید</li>
+		<li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">لیست کاربران</a></li>
+		<li class="breadcrumb-item active">ثبت دسترسی</li>
 	    
 	@endslot
 
@@ -23,25 +23,21 @@
 			@include('admin.layouts.error')
 			<div class="card">
               <div class="card-header">
-                <h3 class="card-title">فرم ایجاد نقش جدید</h3>
+                <h3 class="card-title">ثبت دسترسی</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form class="form-horizontal" action="{{ route('admin.roles.store') }}" method="POST">
+              <form class="form-horizontal" action="{{ route('admin.users.permissions.store' , $user->id) }}" method="POST">
               @csrf
-                <div class="card-body">
                   <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">عنوان نقش</label>
+                    <label for="label" class="col-sm-2 control-label">نقش ها</label>
 
                    
-                      <input type="text" name="name" class="form-control" id="name" placeholder="عنوان را وارد کنید" value="{{ old('name') }}">
-                    
-                  </div>
-                  <div class="form-group">
-                    <label for="label" class="col-sm-2 control-label">توضیحات نقش</label>
-
-                   
-                      <input type="text" name="label" class="form-control" id="label" placeholder="توضیحات را وارد کنید" value="{{ old('label') }}">
+                    <select class="form-control" name="roles[]" id="roles" multiple="">
+                      @foreach(\App\Role::all() as $role)
+                        <option value="{{ $role->id }}" {{ in_array($role->id , $user->roles->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $role->name }} - {{ $role->label }}</option>
+                      @endforeach
+                    </select>
                     
                   </div>
                   <div class="form-group">
@@ -50,13 +46,13 @@
                    
                     <select class="form-control" name="permissions[]" id="permissions" multiple="">
                       @foreach(\App\Permission::all() as $permission)
-                        <option value="{{ $permission->id }}">{{ $permission->name }} - {{ $permission->label }}</option>
+                        <option value="{{ $permission->id }}" {{ in_array($permission->id , $user->permissions->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $permission->name }} - {{ $permission->label }}</option>
                       @endforeach
                     </select>
                     
                   </div>
                   
-                </div>
+                
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-info">ثبت</button>

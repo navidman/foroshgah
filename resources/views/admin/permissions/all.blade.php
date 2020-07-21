@@ -52,6 +52,7 @@
 		                	
 		                	<a href="{{ route('admin.permissions.edit' , $permission->id) }}" class="btn btn-sm btn-primary">ویرایش</a>
 		                	
+		                	
 		                </td>
 	            	</tr>
 	            	@endforeach
