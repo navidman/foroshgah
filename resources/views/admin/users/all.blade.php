@@ -24,9 +24,12 @@
               	</div>
               </form>
               <div class="btn-gruop-sm mr-2">
-              	<a href="{{ route('admin.users.create') }}" class="btn btn-info">ایجاد کاربر جدید</a>
-              	<a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-warning">کاربران مدیر</a>
-              	
+              	@can('create-user')
+              		<a href="{{ route('admin.users.create') }}" class="btn btn-info">ایجاد کاربر جدید</a>
+              	@endcan
+              	@can('show-staff-users')
+              		<a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-warning">کاربران مدیر</a>
+              	@endcan
               </div>
             </div>
           </div>
@@ -62,15 +65,20 @@
 		                <td>{{ $user->email }}</td>
 		                <td>{{ $user->phone_number }}</td>
 		                <td class="d-flex">
-		                	<form action="{{ route('admin.users.destroy' , ['user' => $user->id]) }}" method="POST">
-		                		@csrf
-		                		@method('DELETE')
-		                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
-		                	</form>
-		                	
-		                	<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm ml-2 btn-primary {{ auth()->user()->cannot('edit' , $user) == true ? 'disabled' : '' }}">ویرایش</a>
+		                	@can('delete-user')
+			                	<form action="{{ route('admin.users.destroy' , ['user' => $user->id]) }}" method="POST">
+			                		@csrf
+			                		@method('DELETE')
+			                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
+			                	</form>
+		                	@endcan
+		                	@can('edit-user')
+		                		<a href="{{ route('admin.users.edit' , $user->id) }}" class="btn btn-sm ml-2 btn-primary">ویرایش</a>
+		                	@endcan
 		                	@if($user->isStaff())
-		                		<a href="{{ route('admin.users.permissions' , $user->id) }}" class="btn btn-sm btn-warning">دسترسی</a>
+		                		@can('staff-user-permissions')
+		                			<a href="{{ route('admin.users.permissions' , $user->id) }}" class="btn btn-sm btn-warning">دسترسی</a>
+		                		@endcan
 		                	@endif
 		                </td>
 	            	</tr>

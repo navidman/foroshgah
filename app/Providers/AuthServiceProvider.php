@@ -31,6 +31,11 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('edit-user' , function($user , $currentUser){
         //     return $user->id == $currentUser->id;
         // });
+        Gate::before(function($user){
+            if ($user->isSuperUser()) {
+                return true;
+            }
+        });
 
         foreach (Permission::all() as $permission) {
             Gate::define($permission->name , function($user) use($permission) {

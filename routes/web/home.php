@@ -17,11 +17,11 @@ use App\User;
 */
 
 Route::get('/', function () {
-	if (Gate::allows('edit-user')) {
-    	return view('welcome');
-	}
-	return 'NO';
-	// return view('welcome');
+	// if (Gate::allows('show-users')) {
+ //    	return view('welcome');
+	// }
+	// return 'NO';
+	return view('welcome');
 });
 
 

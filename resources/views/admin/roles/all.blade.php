@@ -24,9 +24,10 @@
               	</div>
               </form>
               <div class="btn-gruop-sm mr-2">
-              	<a href="{{ route('admin.roles.create') }}" class="btn btn-info">ایجاد نقش جدید</a>
-       
-              	
+              	@can('create-role')
+              		<a href="{{ route('admin.roles.create') }}" class="btn btn-info">ایجاد نقش جدید</a>
+       			@endcan
+              		
               </div>
             </div>
           </div>
@@ -44,14 +45,16 @@
 		                <td>{{ $role->name }}</td>
 		                <td>{{ $role->label }}</td>
 		                <td class="d-flex">
-		                	<form action="{{ route('admin.roles.destroy' , $role->id) }}" method="POST">
-		                		@csrf
-		                		@method('DELETE')
-		                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
-		                	</form>
-		                	
-		                	<a href="{{ route('admin.roles.edit' , $role->id) }}" class="btn btn-sm btn-primary">ویرایش</a>
-		                	
+		                	@can('delete-role')
+			                	<form action="{{ route('admin.roles.destroy' , $role->id) }}" method="POST">
+			                		@csrf
+			                		@method('DELETE')
+			                		<button type="submit" class="btn btn-sm btn-danger ml-2">حذف</button>
+			                	</form>
+		                	@endcan
+		                	@can('edit-role')
+		                		<a href="{{ route('admin.roles.edit' , $role->id) }}" class="btn btn-sm btn-primary">ویرایش</a>
+		                	@endcan
 		                </td>
 	            	</tr>
 	            	@endforeach
