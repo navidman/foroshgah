@@ -58,3 +58,4 @@ Route::prefix('profile')->namespace('Profile')->middleware('auth')->group(functi
 
 Route::get('product', 'ProductController@index');
 Route::get('product/{product}', 'ProductController@single');
+Route::post('comments', 'HomeController@comment')->name('send.comment');

@@ -26,4 +26,16 @@ class HomeController extends Controller
         alert()->success('نوییید جاااان','Message')->persistent('اوکی!');
         return view('home');
     }
+
+    public function comment(Request $request) {
+        $validData = $request->validate([
+            'commentable_id' => 'required',
+            'commentable_type' => 'required',
+            'parent_id' => 'required',
+            'comment' => 'required',
+        ]);
+        auth()->user()->comments()->create($validData);
+        alert()->success('نظر شما با موفقیت ثبت شد');
+        return back();
+    }
 }
