@@ -7,6 +7,7 @@ use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Comment;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -111,6 +112,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function products() {
         return $this->hasMany(Product::class);
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class , 'commentable');
     }
 
 }

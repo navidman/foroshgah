@@ -17,11 +17,15 @@ use App\User;
 */
 
 Route::get('/', function () {
-	// if (Gate::allows('show-users')) {
- //    	return view('welcome');
-	// }
-	// return 'NO';
-	return view('welcome');
+	$comment = \App\Comment::find(1);
+	return $comment->commentable;
+	// $product = \App\Product::find(2);
+	// // $product->comments()->create([
+	// // 	'comment' => 'this is my second commnet',
+	// // 	'user_id' => auth()->user()->id,
+		
+	// // ]);
+	// return $product->comments()->get();
 });
 
 
@@ -50,3 +54,7 @@ Route::prefix('profile')->namespace('Profile')->middleware('auth')->group(functi
 	Route::get('two-factor/phone', 'TokenAuthController@getPhoneVerify')->name('two.factor.phone');
 	Route::post('two-factor/phone', 'TokenAuthController@postPhoneVerify');
 });
+
+
+Route::get('product', 'ProductController@index');
+Route::get('product/{product}', 'ProductController@single');

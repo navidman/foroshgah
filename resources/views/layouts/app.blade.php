@@ -68,7 +68,11 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a id="navbarAdminlink" class="nav-link" href="{{ url('admin') }}" role="button">Admin Panel
+                                <a id="navbarAdminlink" class="nav-link" href="{{ url('product') }}" role="button">محصولات
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="navbarAdminlink" class="nav-link" href="{{ url('admin') }}" role="button">پنل ادمین
                                 </a>
                             </li>
                         @endguest
