@@ -35,7 +35,10 @@ class HomeController extends Controller
             'comment' => 'required',
         ]);
         auth()->user()->comments()->create($validData);
-        alert()->success('نظر شما با موفقیت ثبت شد');
-        return back();
+        // alert()->success('نظر شما با موفقیت ثبت شد');
+        // return back();
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }

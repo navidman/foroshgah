@@ -11,6 +11,39 @@
             var modal = $(this)
           
         })
+
+        document.querySelector('#sendCommentForm').addEventListener('submit' , function(event){
+
+            event.preventDefault();
+            let target = event.target;
+            let data = {
+                commentable_id : target.querySelector('input[name = "commentable_id"]').value,
+                commentable_type : target.querySelector('input[name = "commentable_type"]').value,
+                parent_id : target.querySelector('input[name = "parent_id"]').value,
+                comment : target.querySelector('textarea[name = "comment"]').value
+            }
+            if (data.comment.length < 2) {
+                console.error('please enter more than 2 characters')
+                return;
+            }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]').content,
+                    'content-type' : 'application/json'
+                }
+            })
+
+            $.ajax({
+                type : 'POST',
+                url : '/comments',
+                data : JSON.stringify(data),
+                success : function(data) {
+                    console.log(data);
+                }
+            })
+
+        })
     </script>
 @endsection
 
@@ -26,7 +59,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ route('send.comment') }}" method="POST">
+                    <form action="{{ route('send.comment') }}" method="POST" id="sendCommentForm">
                         @csrf
                         <div class="modal-body">
                             <input type="hidden" name="commentable_id" value="{{ $product->id }}">
