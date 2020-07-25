@@ -28,6 +28,13 @@ class HomeController extends Controller
     }
 
     public function comment(Request $request) {
+
+        // if (! $request->ajax()) {
+        //     return response()->json([
+        //         'status' => 'only ajax request is allowed'
+        //     ]); 
+        // }
+
         $validData = $request->validate([
             'commentable_id' => 'required',
             'commentable_type' => 'required',
@@ -35,10 +42,10 @@ class HomeController extends Controller
             'comment' => 'required',
         ]);
         auth()->user()->comments()->create($validData);
-        // alert()->success('نظر شما با موفقیت ثبت شد');
-        // return back();
-        return response()->json([
-            'status' => 'success'
-        ]);
+        alert()->success('نظر شما با موفقیت ثبت شد');
+        return back();
+        // return response()->json([
+        //     'status' => 'success'
+        // ]);
     }
 }

@@ -4,46 +4,48 @@
     <script>
         $('#sendComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
+            let parent_id = button.data('id');
+            
             
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
+            modal.find('input[name="parent_id"]').val(parent_id)
           
         })
 
-        document.querySelector('#sendCommentForm').addEventListener('submit' , function(event){
+        // document.querySelector('#sendCommentForm').addEventListener('submit' , function(event){
 
-            event.preventDefault();
-            let target = event.target;
-            let data = {
-                commentable_id : target.querySelector('input[name = "commentable_id"]').value,
-                commentable_type : target.querySelector('input[name = "commentable_type"]').value,
-                parent_id : target.querySelector('input[name = "parent_id"]').value,
-                comment : target.querySelector('textarea[name = "comment"]').value
-            }
-            if (data.comment.length < 2) {
-                console.error('please enter more than 2 characters')
-                return;
-            }
+        //     event.preventDefault();
+        //     let target = event.target;
+        //     let data = {
+        //         commentable_id : target.querySelector('input[name = "commentable_id"]').value,
+        //         commentable_type : target.querySelector('input[name = "commentable_type"]').value,
+        //         parent_id : target.querySelector('input[name = "parent_id"]').value,
+        //         comment : target.querySelector('textarea[name = "comment"]').value
+        //     }
+        //     if (data.comment.length < 2) {
+        //         console.error('please enter more than 2 characters')
+        //         return;
+        //     }
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]').content,
-                    'content-type' : 'application/json'
-                }
-            })
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]').content,
+        //             'content-type' : 'application/json'
+        //         }
+        //     })
 
-            $.ajax({
-                type : 'POST',
-                url : '/comments',
-                data : JSON.stringify(data),
-                success : function(data) {
-                    console.log(data);
-                }
-            })
+        //     $.ajax({
+        //         type : 'POST',
+        //         url : '/comments',
+        //         data : JSON.stringify(data),
+        //         success : function(data) {
+        //         }
+        //     })
 
-        })
+        // })
     </script>
 @endsection
 
@@ -99,35 +101,15 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="mt-4">بخش نظرات</h4>
                     @auth
-                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment">ثبت نظر جدید</span>
+                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="0">ثبت نظر جدید</span>
                     @endauth
                 </div>
-                <!-- <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="commenter">
-                            <span>نام نظردهنده</span>
-                            <span class="text-muted">- دو دقیقه قبل</span>
-                        </div>
-                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="2" data-type="product">پاسخ به نظر</span>
+                @guest
+                    <div class="alert alert-warning">
+                        برای ثبت نظر لطفا وارد اکانت کاربری خود شوید.
                     </div>
-
-                    <div class="card-body">
-                        محصول زیبایه
-
-                        <div class="card mt-3">
-                            <div class="card-header d-flex justify-content-between">
-                                <div class="commenter">
-                                    <span>نام نظردهنده</span>
-                                    <span class="text-muted">- دو دقیقه قبل</span>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                محصول زیبایه
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                @endguest
+                @include('layouts.comments' , ['comments' => $product->comments()->where('parent_id' , 0)->get()])
             </div>
        </div>
     </div>
