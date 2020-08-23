@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
 use App\User;
+use App\Product;
 
 
 /*
@@ -18,6 +19,7 @@ use App\User;
 
 Route::get('/', function () {
 	// $comment = \App\Comment::find(1);
+	// return Product::withCount('comments')->get();
 	return view('welcome');
 	// $product = \App\Product::find(2);
 	// // $product->comments()->create([
