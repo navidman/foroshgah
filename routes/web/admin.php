@@ -12,3 +12,6 @@ Route::post('/users/{user}/permissions' , 'User\PermissionController@store')->na
 Route::resource('permissions' , 'PermissionController');
 Route::resource('roles' , 'RoleController');
 Route::resource('products' , 'ProductController')->except('show');
+
+Route::get('/comments/unapproved' , 'CommentController@unapproved')->name('admin.comments.unapproved');
+Route::resource('comments' , 'CommentController')->except(['show' , 'create' , 'store' , 'edit']);

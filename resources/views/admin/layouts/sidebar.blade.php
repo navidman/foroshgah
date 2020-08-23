@@ -100,6 +100,31 @@
               </ul>
             </li>
           @endcan
+          @can('show-comments')
+            <li class="nav-item has-treeview {{ isActive(['admin.comments.index' , 'admin.comments.edit'] , 'menu-open') }}">
+              <a href="#" class="nav-link {{ isActive(['admin.comments.index' , 'admin.products.edit']) }}">
+                <i class="fa fa-user nav-icon"></i>
+                <p>
+                  نظرات
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item has-treeview">
+                  <a href="{{ route('admin.comments.index') }}" class="nav-link {{ isActive('admin.comments.index') }}">
+                    <i class="fa fa-users nav-icon"></i>
+                    <p>لیست نظرات تایید شده</p>
+                  </a>
+                </li>
+                <li class="nav-item has-treeview">
+                  <a href="{{ url('admin/comments/unapproved') }}" class="nav-link {{ isActive('admin.comments.unapproved') }}">
+                    <i class="fa fa-users nav-icon"></i>
+                    <p>لیست نظرات تایید نشده</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @endcan
           
         </ul>
       </nav>

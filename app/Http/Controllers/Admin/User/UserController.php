@@ -156,7 +156,7 @@ class UserController extends Controller
             $user->markEmailAsVerified();
         }
         alert()->success('مطلب مورد نظر شما با موفقیت ویرایش شد.');
-        return redirect(route('admin.users.index'));
+        return redirect('admin/user_admin');
     }
 
     /**
@@ -169,6 +169,6 @@ class UserController extends Controller
     {
         $user->delete();
         alert()->success('مطلب مورد نظر شما با موفقیت حذف شد.');
-        return back();
+        return redirect('admin/user_admin');
     }
 }

@@ -50,7 +50,7 @@
                    
                     <select class="form-control" name="permissions[]" id="permissions" multiple="">
                       @foreach(\App\Permission::all() as $permission)
-                        <option value="{{ $permission->id }}">{{ $permission->name }} - {{ $permission->label }}</option>
+                        <option value="{{ $permission->id }}">{{ $permission->display_name }} - {{ $permission->name }}</option>
                       @endforeach
                     </select>
                     

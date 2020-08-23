@@ -18,8 +18,6 @@ use App\User;
 
 Route::get('/', function () {
 	// $comment = \App\Comment::find(1);
-	// return \Carbon\Carbon::now()->subDay(2);
-	return \Morilog\Jalali\Jalalian::now();
 	return view('welcome');
 	// $product = \App\Product::find(2);
 	// // $product->comments()->create([
