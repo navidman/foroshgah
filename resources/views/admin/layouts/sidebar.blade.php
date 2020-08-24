@@ -125,6 +125,31 @@
               </ul>
             </li>
           @endcan
+          @can('show-categories')
+            <li class="nav-item has-treeview {{ isActive(['admin.categories.index' , 'admin.categories.edit'] , 'menu-open') }}">
+              <a href="#" class="nav-link {{ isActive(['admin.categories.index' , 'admin.categories.edit']) }}">
+                <i class="fa fa-user nav-icon"></i>
+                <p>
+                  دسته بندی ها
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item has-treeview">
+                  <a href="{{ route('admin.categories.index') }}" class="nav-link {{ isActive('admin.comments.index') }}">
+                    <i class="fa fa-users nav-icon"></i>
+                    <p>لیست دسته بندی ها</p>
+                  </a>
+                </li>
+                <!-- <li class="nav-item has-treeview">
+                  <a href="{{ url('admin/comments/unapproved') }}" class="nav-link {{ isActive('admin.comments.unapproved') }}">
+                    <i class="fa fa-users nav-icon"></i>
+                    <p>لیست نظرات تایید نشده</p>
+                  </a>
+                </li> -->
+              </ul>
+            </li>
+          @endcan
           
         </ul>
       </nav>
