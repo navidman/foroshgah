@@ -7,6 +7,14 @@
 		<li class="breadcrumb-item active">ایجاد محصول جدید</li>
 	    
 	@endslot
+   @slot('script')
+    <script>
+      $('#categories').select2({
+        'placeholder' : 'دسته های مورد نظر را انتخاب کنید'
+      })
+    </script>
+
+  @endslot
 
 	<div class="row">
 		<div class="col-lg-12">
@@ -45,6 +53,17 @@
 
                    
                       <input type="number" name="inventory" class="form-control" id="inventory" placeholder="موجودی را وارد کنید" value="{{ old('inventory') }}">
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="label" class="col-sm-2 control-label">دسته بندی ها</label>
+
+                   
+                    <select class="form-control" name="categories[]" id="categories" multiple="">
+                      @foreach(\App\Category::all() as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                      @endforeach
+                    </select>
                     
                   </div>
                   

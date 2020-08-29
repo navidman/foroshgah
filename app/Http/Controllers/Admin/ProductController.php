@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Category;
 
 class ProductController extends Controller
 {
@@ -49,8 +50,11 @@ class ProductController extends Controller
             'price' => ['required', 'integer',],
             'inventory' => ['required', 'integer'],
             'view_count' => ['integer'],
+            'categories' => ['required']
         ]);
-        auth()->user()->products()->create($data);
+        $product = auth()->user()->products()->create($data);
+        $product->categories()->sync($data['categories']);
+
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
     }
@@ -92,8 +96,10 @@ class ProductController extends Controller
             'price' => ['required', 'integer',],
             'inventory' => ['required', 'integer'],
             'view_count' => ['integer'],
+            'categories' => ['required']
         ]);
         $product->update($data);
+        $product->categories()->sync($data['categories']);
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
     }

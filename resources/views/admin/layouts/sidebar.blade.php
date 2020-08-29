@@ -102,7 +102,7 @@
           @endcan
           @can('show-comments')
             <li class="nav-item has-treeview {{ isActive(['admin.comments.index' , 'admin.comments.edit'] , 'menu-open') }}">
-              <a href="#" class="nav-link {{ isActive(['admin.comments.index' , 'admin.products.edit']) }}">
+              <a href="#" class="nav-link {{ isActive(['admin.comments.index' , 'admin.comments.edit']) }}">
                 <i class="fa fa-user nav-icon"></i>
                 <p>
                   نظرات
