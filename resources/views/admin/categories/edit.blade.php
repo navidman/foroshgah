@@ -1,70 +1,48 @@
-@component('admin.layouts.content' , ['title' => 'ویرایش کاربران'])
+@component('admin.layouts.content' , ['title' => 'ویرایش دسته'])
+  @slot('breadcrumb')
+    <li class="breadcrumb-item"><a href="/admin">پنل مدیریت</a></li>
+    <li class="breadcrumb-item"><a href="/admin/categories">لیست دسته بندی ها</a></li>
+    <li class="breadcrumb-item active">ویرایش دسته</li>
+  @endslot
 
-	@slot('breadcrumb')
+  <div class="row">
+    <div class="col-lg-12">
+      @include('admin.layouts.error')
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">فرم ویرایش دسته</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form class="form-horizontal" action="{{ route('admin.categories.update' , $category->id) }}" method="POST">
+        @csrf
+        @method('PATCH')
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name" class="col-sm-2 control-label">نام دسته</label>
 
-		<li class="breadcrumb-item"><a href="/admin">پنل مدیریت</a></li>
-		<li class="breadcrumb-item"><a href="/admin/users">لیست کاربران</a></li>
-		<li class="breadcrumb-item active">ویرایش کاربران</li>
-	    
-	@endslot
-
-	<div class="row">
-		<div class="col-lg-12">
-			@include('admin.layouts.error')
-			<div class="card">
-              <div class="card-header">
-                <h3 class="card-title">فرم ویرایش کاربران</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form class="form-horizontal" action="{{ route('admin.users.update' , $user->id) }}" method="POST">
-              @csrf
-              @method('PATCH')
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">نام</label>
-
-                   
-                     <input type="text" name="name" class="form-control" id="name" placeholder="نام را وارد کنید" value="{{ old('name' , $user->name) }}">
-                    
-                  </div>
-                  <div class="form-group">
-                    <label for="email" class="col-sm-2 control-label">ایمیل</label>
-
-                   
-                    <input type="email" name="email" class="form-control" id="email" placeholder="ایمیل را وارد کنید" value="{{ old('email' , $user->email) }}">
-                    
-                  </div>
-                  <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">پسورد</label>
-
-                    
-                    <input type="password" name="password" class="form-control" id="password" placeholder="پسورد را وارد کنید">
-                    
-                    <div class="form-group">
-                    	<label for="password_confirmation" class="col-sm-2 control-label">تکرار پسورد</label>
-
-                    
-                     	<input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="پسورد را تکرار کنید">
-                    
-                    </div>
-                    @if(! $user->hasVerifiedEmail())
-                    	<div class="form-check">
-	                    	<input type="checkbox" name="verify" class="form-check-input" id="verify">
-	                    	<label for="verify" class="form-check-label">اکانت فعال باشد</label>
-	                    </div>
-                    @endif
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-info">ویرایش</button>
-                  <a href="{{ route('admin.users.index') }}" class="btn btn-default float-left">لغو</a>
-                </div>
-                <!-- /.card-footer -->
-              </form>
+                <input type="text" name="name" class="form-control" id="name" placeholder="نام دسته را وارد کنید" value="{{ old('name' , $category->name) }}">
+              
             </div>
-		</div>
-	</div>
+             <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">دسته مرتبط</label>
+                            <select class="form-control" name="parent" id="permissions">
+                                @foreach(\App\Category::all() as $cate)
+                                    <option value="{{ $cate->id }}" {{ $cate->id === $category->parent ? 'selected' : '' }}>{{ $cate->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-info">ویرایش</button>
+              <a href="{{ route('admin.categories.index') }}" class="btn btn-default float-left">لغو</a>
+            </div>
+          </div>
+            
+          <!-- /.card-footer -->
+        </form>
+      </div>
+    </div>
+  </div>
 
 
 @endcomponent

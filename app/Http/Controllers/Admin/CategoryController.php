@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
+
 class CategoryController extends Controller
 {
     /**
@@ -25,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -36,7 +37,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->parent) {
+            $request->validate([
+               'parent' => 'exists:categories,id'
+            ]);
+        }
+        $request->validate([
+            'name' => 'required | min:3'
+        ]);
+        Category::create([
+            'name' => $request->name,
+            'parent' => $request->parent ?? 0
+        ]);
+        alert()->success('دسته مورد نظر ثبت شد!');
+        return redirect(route('admin.categories.index'));
     }
 
     /**
@@ -56,9 +70,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit' , compact('category'));
     }
 
     /**
@@ -68,9 +82,22 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        if($request->parent) {
+            $request->validate([
+                'parent' => 'exists:categories,id'
+            ]);
+        }
+        $request->validate([
+            'name' => 'required | min:3'
+        ]);
+        $category->update([
+            'name' => $request->name,
+            'parent' => $request->parent
+        ]);
+        alert()->success('دسته مورد نظر ویرایش شد!');
+        return redirect(route('admin.categories.index'));
     }
 
     /**
@@ -79,8 +106,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        alert()->success('دسته مورد نظر با موفقیت حذف شد.');
+        return back();
+
     }
 }
