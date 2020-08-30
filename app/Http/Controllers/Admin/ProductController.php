@@ -59,20 +59,7 @@ class ProductController extends Controller
 
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);
-        $attributes = collect($data['attributes']);
-        $attributes->each(function($item) use($product) {
-            if (is_null($item['name']) || is_null($item['value'])) {
-                return;
-            }
-            $attr = Attribute::firstOrCreate(
-                ['name' => $item['name']]
-            );
-            $attr_value = $attr->values()->firstOrCreate(
-                ['value' => $item['value']]
-            );
-            $product->attributes()->attach($attr->id , ['value_id' => $attr_value->id]);
- 
-        });
+        $this->attachAttributesToProduct($product , $data);
 
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
@@ -115,10 +102,16 @@ class ProductController extends Controller
             'price' => ['required', 'integer',],
             'inventory' => ['required', 'integer'],
             'view_count' => ['integer'],
-            'categories' => ['required']
+            'categories' => ['required'],
+            'attributes' => ['required']
         ]);
         $product->update($data);
         $product->categories()->sync($data['categories']);
+        
+
+        $product->attributes()->detach();
+        $this->attachAttributesToProduct($product , $data);
+
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
     }
@@ -134,5 +127,22 @@ class ProductController extends Controller
         $product->delete();
         alert()->success('مطلب مورد نظر شما با موفقیت حذف شد.');
         return back();
+    }
+
+    public function attachAttributesToProduct(Product $product , array $data): void {
+        $attributes = collect($data['attributes']);
+        $attributes->each(function($item) use($product) {
+            if (is_null($item['name']) || is_null($item['value'])) {
+                return;
+            }
+            $attr = Attribute::firstOrCreate(
+                ['name' => $item['name']]
+            );
+            $attr_value = $attr->values()->firstOrCreate(
+                ['value' => $item['value']]
+            );
+            $product->attributes()->attach($attr->id , ['value_id' => $attr_value->id]);
+ 
+        });
     }
 }
