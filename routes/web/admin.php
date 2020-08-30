@@ -16,3 +16,4 @@ Route::resource('products' , 'ProductController')->except('show');
 Route::get('/comments/unapproved' , 'CommentController@unapproved')->name('admin.comments.unapproved');
 Route::resource('comments' , 'CommentController')->except(['show' , 'create' , 'store' , 'edit']);
 Route::resource('categories' , 'CategoryController');
+Route::post('/attribute/values' , 'AttributeController@getValues');

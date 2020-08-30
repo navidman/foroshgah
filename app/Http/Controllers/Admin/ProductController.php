@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use App\Attribute;
+use App\AttributeValue;
 
 class ProductController extends Controller
 {
@@ -50,10 +52,27 @@ class ProductController extends Controller
             'price' => ['required', 'integer',],
             'inventory' => ['required', 'integer'],
             'view_count' => ['integer'],
-            'categories' => ['required']
+            'categories' => ['required'],
+            'attributes' => ['array']
         ]);
+
+
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);
+        $attributes = collect($data['attributes']);
+        $attributes->each(function($item) use($product) {
+            if (is_null($item['name']) || is_null($item['value'])) {
+                return;
+            }
+            $attr = Attribute::firstOrCreate(
+                ['name' => $item['name']]
+            );
+            $attr_value = $attr->values()->firstOrCreate(
+                ['value' => $item['value']]
+            );
+            $product->attributes()->attach($attr->id , ['value_id' => $attr_value->id]);
+ 
+        });
 
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
