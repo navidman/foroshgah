@@ -18,6 +18,7 @@ use App\Product;
 */
 
 Route::get('/', function () {
+	Auth::loginUsingId('1');
 	// $comment = \App\Comment::find(1);
 	// return Product::withCount('comments')->get();
 	return view('welcome');
@@ -61,3 +62,9 @@ Route::prefix('profile')->namespace('Profile')->middleware('auth')->group(functi
 Route::get('product', 'ProductController@index');
 Route::get('product/{product}', 'ProductController@single');
 Route::post('comments', 'HomeController@comment')->name('send.comment');
+Route::post('cart/add/{product}', 'CartController@addToCart')->name('cart.add');
+
+Route::get('cart', function() {
+	dd(Cart::get('2'));
+	return view('home.cart');
+});
