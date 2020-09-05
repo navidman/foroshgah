@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     public function addToCart(Product $product) 
     {
-    	return session()->get('cart');
+    	return Cart::all();
     	if (! Cart::has($product)) {
     		Cart::put(
     			[
@@ -20,7 +20,9 @@ class CartController extends Controller
     			$product
     		);
     	}
-    	
-    	return 'ok';
+        return 'ok';
     }
+   
+
+
 }
