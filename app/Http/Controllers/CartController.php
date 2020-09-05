@@ -10,12 +10,17 @@ class CartController extends Controller
 {
     public function addToCart(Product $product) 
     {
-    	Cart::put(
-    		[
-    			'quantity' => 1,
-    			'price' => $product->price
-    		]
-    	);
+    	return session()->get('cart');
+    	if (! Cart::has($product)) {
+    		Cart::put(
+    			[
+	    			'quantity' => 1,
+	    			'price' => $product->price
+    			],
+    			$product
+    		);
+    	}
+    	
     	return 'ok';
     }
 }

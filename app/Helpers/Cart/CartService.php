@@ -16,6 +16,12 @@ class CartService
         $this->cart = session()->get('cart') ?? collect([]);
     }
 
+
+    /**
+     * @param array $value
+     * @param null $obj
+     * @return $this
+     */
     public function put(array $value , $obj = null)
     {
         if(! is_null($obj) && $obj instanceof Model) {
@@ -34,5 +40,18 @@ class CartService
         session()->put('cart' , $this->cart);
 
         return $this;
+    }
+
+    public function has($key)
+    {
+        if($key instanceof Model) {
+            return ! is_null(
+                $this->cart->where('subject_id' , $key->id)->where('subject_type' , get_class($key))->first()
+            );
+        }
+
+        return ! is_null(
+            $this->cart->firstWhere('id' , $key)
+        );
     }
 }
