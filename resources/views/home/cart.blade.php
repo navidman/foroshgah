@@ -1,5 +1,33 @@
 @extends('layouts.app')
+@section('script')
+    <script>
+        function changeQuantity(event, id , cartName = null) {
+            //
+            $.ajaxSetup({
+                headers : {
+                    'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type' : 'application/json'
+                }
+            })
 
+            //
+            $.ajax({
+                type : 'POST',
+                url : '/cart/quantity/change',
+                data : JSON.stringify({
+                    id : id ,
+                    quantity : event.target.value,
+                    // cart : cartName,
+                    _method : 'patch'
+                }),
+                success : function(res) {
+                    location.reload();
+                }
+            });
+        }
+
+    </script>
+@endsection
 @section('content')
     <div class="container px-3 my-5 clearfix" style="direction: rtl!important; text-align: right;">
         <!-- Shopping cart table -->
@@ -43,7 +71,7 @@
                                         </td>
                                         <td class="text-right font-weight-semibold align-middle p-4">{{ $product->price }} تومان</td>
                                         <td class="align-middle p-4">
-                                            <select name="" class="form-control text-center">
+                                            <select onchange="changeQuantity(event, '{{ $cart['id'] }}')" name="" class="form-control text-center">
                                                 @foreach(range(1, $product->inventory) as $item)
                                                     <option value="{{ $item }}" {{ $cart['quantity'] == $item ? 'selected' : '' }}>{{ $item }}</option>
                                                 @endforeach
