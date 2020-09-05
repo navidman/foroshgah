@@ -64,7 +64,4 @@ Route::get('product/{product}', 'ProductController@single');
 Route::post('comments', 'HomeController@comment')->name('send.comment');
 Route::post('cart/add/{product}', 'CartController@addToCart')->name('cart.add');
 
-Route::get('cart', function() {
-	dd(Cart::get('2'));
-	return view('home.cart');
-});
+Route::get('cart', 'CartController@cart')->name('cart');
