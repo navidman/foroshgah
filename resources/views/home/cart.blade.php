@@ -78,7 +78,14 @@
                                             </select>
                                         </td>
                                         <td class="text-right font-weight-semibold align-middle p-4">تومان {{ $cart['quantity'] * $product->price }}</td>
-                                        <td class="text-center align-middle px-0"><a href="#" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
+                                        <td class="text-center align-middle px-0">
+                                            <form action="{{ route('cart.destroy', $cart['id']) }}" id="delete-cart-{{ $product->id }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                            </form>
+                                            <a href="#" onclick="event.preventDefault();document.getElementById('delete-cart-{{ $product->id }}').submit();" class="shop-tooltip close float-none text-danger">×</a>
+                                            
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach

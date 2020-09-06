@@ -66,3 +66,4 @@ Route::post('cart/add/{product}', 'CartController@addToCart')->name('cart.add');
 
 Route::get('cart', 'CartController@cart')->name('cart');
 Route::patch('cart/quantity/change', 'CartController@quantityChange');
+Route::delete('cart/delete/{cart}', 'CartController@deleteFromCart')->name('cart.destroy');

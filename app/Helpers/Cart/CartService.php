@@ -114,4 +114,20 @@ class CartService
         }
         return$item;
     }
+
+    public function delete($key) 
+    {
+        if ( $this->has($key) ) {
+            $this->cart = $this->cart->filter(function($item) use ($key) {
+                if ($key instanceof Model) {
+                    return ( $item['subject_id'] !=  $key->id ) && ($item['subject_type'] !=get_class($key));
+                }
+                return $key != $item['id'] ;
+            });
+
+            session()->put('cart', $this->cart);
+            return true;
+        }
+        return false;
+    }
 }
