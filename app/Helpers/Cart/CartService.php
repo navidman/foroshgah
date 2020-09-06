@@ -10,11 +10,10 @@ use Illuminate\Support\Str;
 class CartService
 {
     protected $cart;
-    protected $name = 'default';
 
     public function __construct()
     {
-        $this->cart = session()->get($this->name) ?? collect([]);
+        $this->cart = session()->get('cart') ?? collect([]);
     }
 
 
@@ -39,7 +38,7 @@ class CartService
         }
 
         $this->cart->put($value['id'] , $value);
-        session()->put($this->name , $this->cart);
+        session()->put('cart' , $this->cart);
 
         return $this;
     }
@@ -126,16 +125,11 @@ class CartService
                 return $key != $item['id'] ;
             });
 
-            session()->put($this->name, $this->cart);
+            session()->put('cart', $this->cart);
             return true;
         }
         return false;
     }
 
-    public  function instance(string $name) 
-    {
-        $this->cart = session()->get($this->name) ?? collect([]);
-        $this->name = $name;
-        return $this;
-    }
+    
 }
