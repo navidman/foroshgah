@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function(){
 	});
 	Route::post('comments', 'HomeController@comment')->name('send.comment');
 	Route::post('payment', 'paymentController@payment')->name('cart.payment');
+	Route::get('payment/callback', 'paymentController@callback')->name('payment.callback');
 	
 });
 

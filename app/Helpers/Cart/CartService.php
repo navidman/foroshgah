@@ -102,6 +102,13 @@ class CartService
         return $cart;
     }
 
+    public function flush() 
+    {
+        $this->cart = collect([]);
+        session()->forget('cart');
+        return $this;
+    }
+
     protected function withRelationshipIfExist($item)
     {
         if (isset($item['subject_id']) && isset($item['subject_type'])) {
@@ -131,5 +138,5 @@ class CartService
         return false;
     }
 
-    
+
 }

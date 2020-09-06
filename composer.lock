@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98cf9cd83ddb5f979e2366e09beb8be2",
+    "content-hash": "32442381cbe455292b98b94ef90356b5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -503,6 +503,57 @@
                 "trusted proxy"
             ],
             "time": "2020-06-23T01:36:47+00:00"
+        },
+        {
+            "name": "flotfeali/payping-client",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/farhad-lotfeali/payping-client.git",
+                "reference": "effa3af727cae3e91713c759e30bf1c7ac6995f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/farhad-lotfeali/payping-client/zipball/effa3af727cae3e91713c759e30bf1c7ac6995f7",
+                "reference": "effa3af727cae3e91713c759e30bf1c7ac6995f7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "guzzlehttp/guzzle": "^6.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PayPing\\Laravel\\PayPingServiceProvider"
+                    ],
+                    "aliases": {
+                        "Authorization": "PayPing\\Laravel\\Facade\\Authorization",
+                        "Payment": "PayPing\\Laravel\\Facade\\Payment"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PayPing\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "farhad lotfeali",
+                    "email": "flotfeali@gmail.com"
+                }
+            ],
+            "time": "2019-06-01T11:47:12+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

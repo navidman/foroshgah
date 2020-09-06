@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -24,8 +25,40 @@ class PaymentController extends Controller
     			'price' => $price,
     		]);
     		$order->products()->attach($orderItems);
-    		return 'ok';
+
+
+    		
+    		$token = config('services.payping.token');
+    		$res_number = Str::random();
+			$args = [
+			    "amount" => 1000,
+			    "payerName" => auth()->user()->name,
+			    "returnUrl" => route('payment.callback'),
+			    "clientRefId" => $res_number
+			];
+
+			$payment = new \PayPing\Payment($token);
+
+			try {
+			    $payment->pay($args);
+			} catch (\Exception $e) {
+			    throw $e;
+			}
+			//echo $payment->getPayUrl();
+
+			$order->payments()->create([
+				'resnumber' => $res_number,
+				'price' => $price
+			]);
+			Cart::flush();
+
+			return redirect($payment->getPayUrl());
     	}
     	return back();
+    }
+
+    public function callback() 
+    {
+
     }
 }
