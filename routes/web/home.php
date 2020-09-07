@@ -56,6 +56,8 @@ Route::prefix('profile')->namespace('Profile')->middleware('auth')->group(functi
 
 	Route::get('two-factor/phone', 'TokenAuthController@getPhoneVerify')->name('two.factor.phone');
 	Route::post('two-factor/phone', 'TokenAuthController@postPhoneVerify');
+	Route::get('orders', 'OrderController@index')->name('profile.orders');
+	Route::get('orders/{order}', 'OrderController@showDetails')->name('profile.orders.details');
 });
 
 Route::middleware('auth')->group(function(){

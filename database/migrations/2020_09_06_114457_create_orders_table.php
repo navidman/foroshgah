@@ -21,9 +21,7 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['unpaid', 'paid', 'preparation', 'posted', 'recieved']);
             $table->string('tracking_serial')->nullable();
             $table->timestamps();
-
         });
-
         Schema::create('order_product', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
@@ -32,8 +30,6 @@ class CreateOrdersTable extends Migration
 
             $table->integer('quantity');
             $table->primary(['order_id' , 'product_id']);
-
-
         });
     }
 
