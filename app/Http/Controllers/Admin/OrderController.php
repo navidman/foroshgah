@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Order;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderController extends Controller
 {
@@ -53,9 +54,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $products = $order->products()->latest()->paginate(20);
+        return view('admin.orders.details' , compact('order'));
     }
 
     /**
@@ -99,5 +101,11 @@ class OrderController extends Controller
         $order->delete();
         alert()->success('سفارش مورد نظر با موفقیت حذف شد.');
         return back();
+    }
+
+    public function payment(Order $order) 
+    {
+        $payments = $order->payments()->latest()->paginate(20);
+        return view('admin.orders.payments' , compact('payments' , 'order')); 
     }
 }

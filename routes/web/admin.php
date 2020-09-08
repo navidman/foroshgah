@@ -18,3 +18,4 @@ Route::resource('comments' , 'CommentController')->except(['show' , 'create' , '
 Route::resource('categories' , 'CategoryController');
 Route::post('/attribute/values' , 'AttributeController@getValues');
 Route::resource('orders' , 'OrderController');
+Route::get('/orders/{order}/orders' , 'OrderController@payment')->name('orders.payments');
