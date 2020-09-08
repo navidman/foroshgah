@@ -56,8 +56,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $products = $order->products()->latest()->paginate(20);
-        return view('admin.orders.details' , compact('order'));
+        $products = $order->products()->paginate(20);
+        return view('admin.orders.details' , compact('products' , 'order'));
     }
 
     /**
