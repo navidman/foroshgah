@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Str;
 use App\Payment;
+use Shetabit\Multipay\Invoice;
+use Shetabit\Payment\Facade\Payment as ShetabitPayment;
+use Shetabit\Multipay\Exceptions\InvalidPaymentException;
+
 
 class PaymentController extends Controller
 {
@@ -28,61 +32,50 @@ class PaymentController extends Controller
     		$order->products()->attach($orderItems);
 
 
-    		
-    		$token = config('services.payping.token');
-    		$res_number = Str::random();
-			$args = [
-			    "amount" => 1000,
-			    "payerName" => auth()->user()->name,
-			    "returnUrl" => route('payment.callback'),
-			    "clientRefId" => $res_number
-			];
-
-			$payment = new \PayPing\Payment($token);
-
-			try {
-			    $payment->pay($args);
-			} catch (\Exception $e) {
-			    throw $e;
-			}
-			//echo $payment->getPayUrl();
-
-			$order->payments()->create([
-				'resnumber' => $res_number,
-				'price' => $price
-			]);
-			Cart::flush();
-
-			return redirect($payment->getPayUrl());
-    	}
+			// Create new invoice.
+			// $invoice = (new Invoice)->amount($price);
+			$invoice = (new Invoice)->amount(1000);
+			// Purchase and pay the given invoice.
+			// You should use return statement to redirect user to the bank page.
+			return ShetabitPayment::callbackUrl(route('payment.callback'))->purchase($invoice, function($driver, $transactionId) use($order , $cart, $invoice) {
+			    // Store transactionId in database as we need it to verify payment in the future.
+			    $order->payments()->create([
+					'resnumber' => $invoice->getUuid(),
+				]);
+				Cart::flush();
+			})->pay()->render();
+		}
     	return back();
     }
 
     public function callback(Request $request) 
     {
     	$payment = Payment::where('resnumber', $request->clientrefid)->firstOrFail();
-    	$token = config('services.payping.token');
 
-		$payping = new \PayPing\Payment($token);
 
-		try {
-		    if($payping->verify($request->refid, 1000)){
-		    	$payment->update([
-		    		'status' => 1
-		    	]);
-		    	$payment->order->update([
-		    		'status' => 'paid'
-		    	]);
-		    	alert()->success('پرداخت شما موفق بود.');
-		    	return redirect('/product');
-		    }else{
-		        alert()->error('پرداخت شما تایید نشد.');
-		        return redirect('/product');
-		    }
-		} catch (\Exception $e) {
-			$errors = collect(json_decode($e->getMessage(), true));
-			alert()->error($errors->first());
+
+    	// amount($payment->order->price)
+    	try {
+			$receipt = ShetabitPayment::amount(1000)->transactionId($request->clientrefid)->verify();
+			$payment->update([
+	    		'status' => 1
+	    	]);
+	    	$payment->order->update([
+	    		'status' => 'paid'
+	    	]);
+	    	alert()->success('پرداخت شما موفق بود.');
+	    	return redirect('/product');
+		    
+		} catch (InvalidPaymentException $exception) {
+		    /**
+		    	when payment is not verified, it will throw an exception.
+		    	We can catch the exception to handle invalid payments.
+		    	getMessage method, returns a suitable message that can be used in user interface.
+		    **/
+
+		    alert()->error($exception->getMessage());
 		    return redirect('/product');
 		}
+
     }
 }

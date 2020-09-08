@@ -21,7 +21,10 @@
 					        		<td>{{ $order->status }}</td>
 					        		<td>{{ $order->tracking_serial ?? 'هنوز ثبت نشده' }}</td>
 					        		<td>
-					        			<a href="{{ route('profile.orders.details', $order->id) }}" class="btn btn-sm btn-info"> جزيیات سفارش</a>
+					        			<a href="{{ route('profile.orders.details', $order->id) }}" class="btn btn-sm btn-info">جزيیات سفارش</a>
+					        			@if($order->status == 'unpaid')
+					        				<a href="{{ route('profile.orders.payment', $order->id) }}" class="btn btn-sm btn-warning">پرداخت مجدد</a>
+					        			@endif
 					        		</td>
 					                
 					        	</tr>
