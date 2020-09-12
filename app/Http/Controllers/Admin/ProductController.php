@@ -56,6 +56,9 @@ class ProductController extends Controller
             'attributes' => ['array']
         ]);
 
+        $file = $request->file('image');
+        $file->move(public_path('image') , $file->getClientOriginalName());
+
 
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);

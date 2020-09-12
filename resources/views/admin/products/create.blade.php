@@ -109,7 +109,7 @@
               <!-- /.card-header -->
               <!-- form start -->
               <div id="attributes" data-attributes="{{ json_encode(\App\Attribute::all()->pluck('name')) }}"></div>
-              <form class="form-horizontal" action="{{ route('admin.products.store') }}" method="POST">
+              <form class="form-horizontal" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -139,6 +139,14 @@
                       <input type="number" name="inventory" class="form-control" id="inventory" placeholder="موجودی را وارد کنید" value="{{ old('inventory') }}">
                     
                   </div>
+                  <div class="form-group">
+                    <label for="image" class="col-sm-2 control-label">آپلود تصویر شاخص</label>
+
+                   
+                      <input type="file" name="image" class="form-control">
+                    
+                  </div>
+
                   <div class="form-group">
                     <label for="label" class="col-sm-2 control-label">دسته بندی ها</label>
 
