@@ -10,7 +10,7 @@ use App\Comment;
 class Product extends Model
 {
     protected $fillable = [
-    	'title' , 'description' , 'price' , 'inventory' , 'view_count'
+    	'title' , 'description' , 'price' , 'inventory' , 'view_count' , 'image'
     ];
 
     public function comments() {

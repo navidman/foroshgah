@@ -53,16 +53,23 @@ class ProductController extends Controller
             'inventory' => ['required', 'integer'],
             'view_count' => ['integer'],
             'categories' => ['required'],
+            'image' => ['required','mimes:png,jpg,jpeg','max:1024'],
             'attributes' => ['array']
         ]);
 
         $file = $request->file('image');
-        $file->move(public_path('image') , $file->getClientOriginalName());
+        $destinationPath = '/images/' . now()->year . '/' . now()->month . '/' . now()->day . '/';
+        $file->move( public_path($destinationPath), $file->getClientOriginalName());
 
+        $data['image'] = $destinationPath . $file->getClientOriginalName();
+
+        // dd($data);
 
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);
-        $this->attachAttributesToProduct($product , $data);
+        if ($data['attributes']) {
+            $this->attachAttributesToProduct($product , $data);
+        };
 
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
