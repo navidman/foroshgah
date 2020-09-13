@@ -109,7 +109,7 @@
               <!-- /.card-header -->
               <!-- form start -->
               <div id="attributes" data-attributes="{{ json_encode(\App\Attribute::all()->pluck('name')) }}"></div>
-              <form class="form-horizontal" action="{{ route('admin.products.update' , $product->id) }}" method="POST">
+              <form class="form-horizontal" action="{{ route('admin.products.update' , $product->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PATCH')
                 <div class="card-body">
@@ -140,6 +140,13 @@
                    
                       <input type="text" name="inventory" class="form-control" id="inventory" placeholder="موجودی را وارد کنید" value="{{ old('inventory' , $product->inventory) }}">
                     
+                  </div>
+                  <div class="form-group">
+                      <input type="text" class="form-control mb-2" dir="ltr" value="{{ $product->image }}" disabled>
+                      <img class="w-25" src="{{ $product->image }}" alt="">
+                      <hr>
+                      <label class="col-sm-2 control-label">آپلود تصویر شاخص</label>
+                      <input type="file" name="image" class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="label" class="col-sm-2 control-label">دسته بندی ها</label>

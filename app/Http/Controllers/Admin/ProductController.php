@@ -8,6 +8,8 @@ use App\Product;
 use App\Category;
 use App\Attribute;
 use App\AttributeValue;
+use Illuminate\Support\Facades\File;
+
 
 class ProductController extends Controller
 {
@@ -67,7 +69,7 @@ class ProductController extends Controller
 
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);
-        if ($data['attributes']) {
+        if (isset($data['attributes'])) {
             $this->attachAttributesToProduct($product , $data);
         };
 
@@ -116,13 +118,35 @@ class ProductController extends Controller
             'categories' => ['required'],
             'attributes' => ['required']
         ]);
+
+
+        if ($request->file('image')) {
+            $request->validate([
+                'image' => ['required','mimes:png,jpg,jpeg','max:1024']
+            ]);
+
+            if(File::exists(public_path($product->image))) {
+                File::delete(public_path($product->image));
+            }
+
+            $file = $request->file('image');
+            $destinationPath = '/images/' . now()->year . '/' . now()->month . '/' . now()->day . '/';
+            $file->move( public_path($destinationPath), $file->getClientOriginalName());
+            $data['image'] = $destinationPath . $file->getClientOriginalName();
+        }
+
+        
+
         $product->update($data);
         $product->categories()->sync($data['categories']);
         
 
         $product->attributes()->detach();
-        $this->attachAttributesToProduct($product , $data);
 
+        if (isset($data['attributes'])) {
+            $this->attachAttributesToProduct($product , $data);
+        };
+        
         alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد.');
         return redirect(route('admin.products.index'));
     }
