@@ -1,11 +1,11 @@
 {
-    "name": "Product",
-    "alias": "product",
+    "name": "Discount",
+    "alias": "discount",
     "description": "",
     "keywords": [],
     "order": 0,
     "providers": [
-        "Modules\\Product\\Providers\\ProductServiceProvider"
+        "Modules\\Discount\\Providers\\DiscountServiceProvider"
     ],
     "aliases": {},
     "files": [],
