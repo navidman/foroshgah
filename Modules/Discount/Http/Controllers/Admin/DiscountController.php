@@ -9,6 +9,8 @@ use Modules\Discount\Entities\Discount;
 use App\Product;
 use App\User;
 use App\Category;
+use Illuminate\Validation\Rule;
+
 
 
 
@@ -57,23 +59,13 @@ class DiscountController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('discount::show');
-    }
-
-    /**
      * Show the form for editing the specified resource.
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Discount $discount)
     {
-        return view('discount::edit');
+        return view('discount::admin.edit', compact('discount'));
     }
 
     /**
@@ -82,9 +74,34 @@ class DiscountController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Discount $discount)
     {
-        //
+        $data = $request->validate([
+            'code' => ['required', Rule::unique('discounts', 'code')->ignore($discount->id)],
+            'percent' => 'required|integer|between:1,99',
+            'users' => 'nullable|array|exists:users,id',
+            'products' => 'nullable|array|exists:products,id',
+            'categories' => 'nullable|array|exists:categories,id',
+            'expired_at' => 'required',
+        ]);
+        $discount->update($data);
+
+
+        if (isset($data['products'])) {
+            $discount->products()->detach();
+            $discount->products()->attach($data['products']);
+        };
+        if (isset($data['categories'])) {
+            $discount->categories()->detach();
+            $discount->categories()->attach($data['categories']);
+        };
+        if (isset($data['users'])) {
+            $discount->users()->detach();
+            $discount->users()->attach($data['users']);
+        };
+
+
+        return redirect(route('admin.discount.index'));
     }
 
     /**
@@ -92,8 +109,10 @@ class DiscountController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Discount $discount)
     {
-        //
+        $discount->delete();
+        alert()->success('مطلب مورد نظر شما با موفقیت حذف شد.');
+        return back();
     }
 }

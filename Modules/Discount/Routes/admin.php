@@ -2,4 +2,4 @@
 
 
 
-Route::resource('discount', 'DiscountController');
+Route::resource('discount', 'DiscountController')->except('show');
