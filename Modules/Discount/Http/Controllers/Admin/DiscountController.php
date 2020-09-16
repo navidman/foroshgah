@@ -5,6 +5,12 @@ namespace Modules\Discount\Http\Controllers\Admin;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Discount\Entities\Discount;
+use App\Product;
+use App\User;
+use App\Category;
+
+
 
 class DiscountController extends Controller
 {
@@ -14,7 +20,8 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        return view('discount::index');
+        $discounts = Discount::latest()->paginate(30);
+        return view('discount::admin.all', compact('discounts'));
     }
 
     /**
@@ -23,7 +30,7 @@ class DiscountController extends Controller
      */
     public function create()
     {
-        return view('discount::create');
+        return view('discount::admin.create');
     }
 
     /**
@@ -33,7 +40,20 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'code' => 'required|unique:discounts,code',
+            'percent' => 'required|integer|between:1,99',
+            'users' => 'nullable|array|exists:users,id',
+            'products' => 'nullable|array|exists:products,id',
+            'categories' => 'nullable|array|exists:categories,id',
+            'expired_at' => 'required',
+        ]);
+        $discount = Discount::create($data);
+        $discount->products()->attach($data['products']);
+        $discount->categories()->attach($data['categories']);
+        $discount->users()->attach($data['users']);
+        alert()->success('تخفیف مورد نظر با موفقیت ایجاد شد.');
+        return redirect(route('admin.discount.index'));
     }
 
     /**

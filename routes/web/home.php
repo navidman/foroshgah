@@ -18,7 +18,7 @@ use App\Product;
 */
 
 Route::get('/', function () {
-	// Auth::loginUsingId('1');
+	Auth::loginUsingId('1');
 	// $comment = \App\Comment::find(1);
 	// return Product::withCount('comments')->get();
 	return view('welcome');
