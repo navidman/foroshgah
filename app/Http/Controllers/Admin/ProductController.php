@@ -65,7 +65,6 @@ class ProductController extends Controller
 
         $data['image'] = $destinationPath . $file->getClientOriginalName();
 
-        // dd($data);
 
         $product = auth()->user()->products()->create($data);
         $product->categories()->sync($data['categories']);

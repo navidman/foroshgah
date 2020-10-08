@@ -6,12 +6,29 @@
 		<li class="breadcrumb-item active">همه ی دمحصولات</li>
 
 	@endslot
+	@slot('script')
+		<script>
+			$('.js-data-example-ajax').select2({
+			  ajax: {
+			    url: 'https://api.github.com/search/repositories',
+			    dataType: 'json'
+			    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+			  }
+			});
+		</script>
+	@endslot
 
 	<div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">محصولات</h3>
+
+            <div class="row">
+            	<div class="form-group">
+	                <select class="js-data-example-ajax" style="width: 400px;"></select>
+	             </div>
+            </div>
 
             <div class="card-tools d-flex">
               <form action="">

@@ -1716,11 +1716,6 @@ pre code {
   opacity: 1;
 }
 
-.form-control::-ms-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
 .form-control::placeholder {
   color: #6c757d;
   opacity: 1;
@@ -8760,10 +8755,6 @@ body,
   color: rgba(255, 255, 255, 0.6);
 }
 
-.navbar-dark .form-control-navbar::-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
 .navbar-dark .form-control-navbar::placeholder,
 .navbar-dark .form-control-navbar + .input-group-append > .btn-navbar {
   color: rgba(255, 255, 255, 0.6);
@@ -8799,10 +8790,6 @@ body,
 }
 
 .navbar-light .form-control-navbar:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.navbar-light .form-control-navbar::-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
 
